@@ -5,7 +5,7 @@ from copy import deepcopy
 class ACLentry:
     perms_all = ["READ/LIST", "WRITE/CREATE", "APPEND/MKDIR", "SYNCHRONIZE", "READ_ACL", "READ_ATTR", "READ_NAMED",
                  "DELETE", "DELETE_CHILD", "CHOWN", "EXEC/SEARCH", "WRITE_ACL", "WRITE_ATTR", "WRITE_NAMED"]
-    perm_str_len = [10, 12, 12, 11, 9, 10, 11, 10, 12, 12, 11, 9, 10, 11]
+    perm_str_len = [9, 12, 12, 11, 9, 10, 11, 9, 12, 12, 11, 9, 10, 11]
     perm_modes = ["r", "wc", "wc", None, "r", "r", "r", "wc", "wc", None, "x", "wc", "wc", "wc"]
     flags_all = ["FileInherit", "DirInherit", "NoPropagateInherit", "InheritOnly", "InheritNoPropagate"]
     mode_all = "rwxc"

@@ -55,10 +55,10 @@ class ACL:
     def write_to_file(self):
         assert self.file is not None and self.file.exists(), f"File {self.file} does not exist"
         command = [self.put_acl_cmd, self.file.as_posix()]
-        # result = subprocess.run(command, input=self.to_string().encode(), text=True, capture_output=True)
-        # print(result.stderr)
-        # print(result.stdout)
-        print(self.to_string())
+        print("Writing")
+        result = subprocess.run(command, input=self.to_string(), text=True, capture_output=True)
+        print("-Writing")
+        print(result.stderr)
 
     def to_string(self):
         acl_string = "#NFSv4 ACL\n"
@@ -113,7 +113,5 @@ class ACL:
         assert filename is not None and filename.exists(), f"File {filename} does not exist"
         command = [get_acl_cmd, filename.as_posix()]
         result = subprocess.run(command, text=True, capture_output=True)
-        print("Reading")
         print(result.stderr)
-        print(result.stdout)
         return result.stdout
