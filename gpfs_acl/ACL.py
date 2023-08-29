@@ -36,11 +36,11 @@ class ACL:
         self.controls = []
 
     def parse(self, acl_string):
+        acl_string = acl_string.strip()
         self.reset()
         self.owner = self.parse_owner(acl_string)
         self.group = self.parse_group(acl_string)
-        controls = "\n".join(acl_string.split("\n")[4:])  # Remove top lines
-        self.controls = self.parse_controls(controls)
+        self.controls = self.parse_controls(acl_string)
 
     def cleanup(self):
         for entry in self.controls.values():
@@ -81,6 +81,12 @@ class ACL:
 
     @staticmethod
     def parse_controls(acl_string):
+        acl_lines = acl_string.split("\n")
+        controls_start = 0
+        while controls_start<len(acl_lines) and acl_lines[controls_start][0] == "#":
+            controls_start += 1
+
+        acl_string = "\n".join(acl_lines[controls_start:])
         control_strings = acl_string.split("\n\n")
         controls = {}
         for c in control_strings:
@@ -103,5 +109,7 @@ class ACL:
         assert filename is not None and filename.exists(), f"File {filename} does not exist"
         command = [get_acl_cmd, filename.as_posix()]
         result = subprocess.run(command, text=True, capture_output=True)
+        print("Reading")
         print(result.stderr)
+        print(result.stdout)
         return result.stdout
