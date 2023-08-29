@@ -6,7 +6,7 @@ class ACLentry:
     perms_all = ["READ/LIST", "WRITE/CREATE", "APPEND/MKDIR", "SYNCHRONIZE", "READ_ACL", "READ_ATTR", "READ_NAMED",
                  "DELETE", "DELETE_CHILD", "CHOWN", "EXEC/SEARCH", "WRITE_ACL", "WRITE_ATTR", "WRITE_NAMED"]
     perm_str_len = [10, 12, 12, 11, 9, 10, 11, 10, 12, 12, 11, 9, 10, 11]
-    perm_modes = ["r", "w", "w", None, "r", "r", "r", "w", "w", None, "x", "w", "w", "w"]
+    perm_modes = ["r", "wc", "wc", None, "r", "r", "r", "wc", "wc", None, "x", "wc", "wc", "wc"]
     flags_all = ["FileInherit", "DirInherit", "NoPropagateInherit", "InheritOnly", "InheritNoPropagate"]
     mode_all = "rwxc"
 
@@ -62,8 +62,11 @@ class ACLentry:
         for p, m in zip(ACLentry.perms_all, ACLentry.perm_modes):
             if m is None:
                 continue
+
             if p in self.permissions and self.permissions[p]:
-                self.mode[m] = True
+                for m_a in ACLentry.mode_all:
+                    if m_a in m:
+                        self.mode[m_a] = True
 
     def to_string(self):
         return self.subjectline_to_string() + "\n" + self.permissions_to_string()
