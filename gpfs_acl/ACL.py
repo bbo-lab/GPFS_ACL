@@ -91,12 +91,16 @@ class ACL:
         controls = {}
         for c in control_strings:
             aclentry = ACL.parse_control(c)
-            aclename = f"{aclentry.qualifier}:{aclentry.subject}:{aclentry.acltype}"
-            if aclename in controls:
-                controls[aclename] += aclentry
-            else:
-                controls[aclename] = aclentry
+            ACL.add_acl_entry(controls, aclentry)
         return controls
+
+    @staticmethod
+    def add_acl_entry(controls, aclentry):
+        aclename = f"{aclentry.qualifier}:{aclentry.subject}:{aclentry.acltype}"
+        if aclename in controls:
+            controls[aclename] += aclentry
+        else:
+            controls[aclename] = aclentry
 
     @staticmethod
     def parse_control(control_string):

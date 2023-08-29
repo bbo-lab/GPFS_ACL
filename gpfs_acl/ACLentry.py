@@ -55,6 +55,13 @@ class ACLentry:
     def is_dir(self):
         pass
 
+    def get_permission(self, perm):
+        return self.permissions[perm]
+
+    def set_permission(self, perm, value):
+        assert perm in self.perms_all, "Unknown permission"
+        self.permissions[perm] = bool(value)
+
     def derive_mode_from_special(self):
         for p in self.mode:
             self.mode[p] = False
